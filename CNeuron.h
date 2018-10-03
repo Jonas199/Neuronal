@@ -12,9 +12,12 @@ public:
 	~CNeuron();
 
 private:
+	static int id;
+	int thisId;
 	double output;
 	int state;
 	int nrOfInputs;
+	int layer;
 	double relError;
 	double factor;
 	vector <CInput*> inputList;
@@ -32,6 +35,12 @@ public:
 	double getRelError();
 	double getFactor();
 	double getWeight(int inputNr);
+	void setLayer(int _layer);
+	int getLayer();
+	//void setId(int _Id);
+	int getId();
+
+
 	void printAll();
 
 };

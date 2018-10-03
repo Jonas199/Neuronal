@@ -9,6 +9,8 @@ CNeuron::CNeuron()
 {
 	output = 0.0;
 	state = 1;
+	this->thisId = id;
+	id++;
 }
 
 
@@ -83,8 +85,26 @@ double CNeuron::getWeight(int inputNr){
 	return this->inputList.at(inputNr)->getWeight();
 }
 
+void CNeuron::setLayer(int _layer)
+{
+	this->layer = _layer;
+
+}
+
+int CNeuron::getLayer()
+{
+	return this->layer;
+}
+
+int CNeuron::getId()
+{
+	return this->thisId;
+}
+
 void CNeuron::printAll(){
 	cout << "\n---NEURON VALUES:---"  << endl;
+	cout << "id: " << this->getId() << endl;
+	cout << "layer: " << this->getLayer() << endl;
 	cout << "factor: " << this->getFactor() << endl;
 	cout << "nr of inputs: " << this->getNrOfInputs() << endl;
 	cout << "rel. error: " << this->getRelError() << endl;
@@ -97,3 +117,4 @@ void CNeuron::printAll(){
 		cout << endl;
 	}
 }
+int CNeuron::id = 0;
