@@ -8,5 +8,11 @@ public:
 private:
 	int rows;
 	int cols;
+	double **matrix;
+public:
+	void setValue(int row, int col, double value);
+	double getValue(int row, int col);
+	void printMatrix();
+	void setMatrixToZero();
 };
 

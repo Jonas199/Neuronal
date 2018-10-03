@@ -1,4 +1,5 @@
 #include "CNeuron.h"
+#include "CMatrix.h"
 #include <iostream>
 #include "vector"
 
@@ -15,8 +16,8 @@ private:
 	int layerId;
 	int nrOfNeurons;
 	int nrOfInputsPerNeuron; // = Number of Neurons in last Layer
-	int layer;
-	double **weights;
+	int layerNr;
+	CMatrix *weightMatrix;
 	vector <CNeuron*> neurons;
 	vector <double> outputs;
 
