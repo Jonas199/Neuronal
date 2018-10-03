@@ -54,7 +54,16 @@ void CMatrix::setMatrixToZero(){
 		for (int j = 0; j < cols; j++){
 			this->setValue(i, j,0);
 		}
-		cout << endl;
 	}
 }
 
+
+
+void CMatrix::multWithFactor(double factor)
+{
+	for (int i = 0; i < rows; i++){
+		for (int j = 0; j < cols; j++){
+			this->setValue(i, j, this->getValue(i,j)*factor);
+		}
+	}
+}

@@ -14,5 +14,6 @@ public:
 	double getValue(int row, int col);
 	void printMatrix();
 	void setMatrixToZero();
+	void multWithFactor(double factor);
 };
 
