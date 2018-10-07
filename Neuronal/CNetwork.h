@@ -12,6 +12,7 @@ private:
 	int nrOfNeuronsPerLayer;
 	int inputs;
 	int targets;
+	int iterations;
 public:
 	CNetwork();
 	~CNetwork();
