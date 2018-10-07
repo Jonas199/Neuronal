@@ -29,6 +29,16 @@ CMatrix::~CMatrix()
 }
 
 
+int CMatrix::getNrOfRows()
+{
+	return this->rows;
+}
+
+int CMatrix::getNrOfCols()
+{
+	return this->cols;
+}
+
 void CMatrix::setValue(int row, int col, double value)
 {
 	this->matrix[row][col] = value;

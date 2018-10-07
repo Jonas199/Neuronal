@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "CNetwork.h"
 
 
@@ -16,14 +16,13 @@ CNetwork::~CNetwork()
 
 void CNetwork::addLayer(CLayer *layer)
 {
-
+	this->layer.push_back(layer);
 }
 
 
-int CNetwork::deleteLayer()
+void CNetwork::deleteLayer(int layerNr)
 {
-	// TODO: Fügen Sie hier Ihren Implementierungscode ein..
-	return 0;
+	this->layer.erase(this->layer.begin()+layerNr);
 }
 
 vector<CLayer*> CNetwork::getLayers() {
@@ -35,7 +34,6 @@ double CNetwork::calculateOutput(int _nr) {
 }
 
 void CNetwork::setLayerInputs(CLayer* layer) {
-	
 	
 }
 
@@ -77,4 +75,29 @@ int CNetwork::getNumberOfLayers()
 int CNetwork::getNumberOfNeuronsPerLayer()
 {
 	return this->nrOfNeuronsPerLayer;
+}
+
+void CNetwork::setNumberOfIterations(int _nr)
+{
+	this->nrOfIterations = _nr;
+}
+
+int CNetwork::getNumberOfIterations()
+{
+	return this->nrOfIterations;
+}
+
+vector<double> CNetwork::calculateOutputOfLayer(int layer)
+{
+	vector <double> result;
+	CLayer *l = this->layer.at(layer);
+	for (int i = 0; i < l->getNrOfNeurons(); i++) {
+		result.push_back(l->getNeurons().at(i)->calculateOutput());
+	}
+	return result;
+}
+
+void CNetwork::createWeightMatrix(int layerNr)
+{
+
 }

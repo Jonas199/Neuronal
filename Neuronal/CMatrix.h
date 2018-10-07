@@ -10,6 +10,8 @@ private:
 	int cols;
 	double **matrix;
 public:
+	int getNrOfRows();
+	int getNrOfCols();
 	void setValue(int row, int col, double value);
 	double getValue(int row, int col);
 	void printMatrix();

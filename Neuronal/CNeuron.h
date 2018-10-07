@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "vector"
 #include "CInput.h"
 #pragma once
@@ -42,7 +42,7 @@ public:
 	double getDelta();
 	void setDelta(double delta);
 	int getId();
-
+	
 
 	void printAll();
 

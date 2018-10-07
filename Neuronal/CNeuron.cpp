@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "CNeuron.h"
 #include <iostream>
 #include <Array>
@@ -122,6 +122,8 @@ int CNeuron::getId()
 {
 	return this->id;
 }
+
+
 
 void CNeuron::printAll(){
 	cout << "\n---NEURON VALUES:---"  << endl;

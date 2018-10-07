@@ -12,14 +12,14 @@ private:
 	int nrOfNeuronsPerLayer;
 	int inputs;
 	int targets;
-	int iterations;
+	int nrOfIterations;
 public:
 	CNetwork();
 	~CNetwork();
 	void addLayer(CLayer *layer);
-	int deleteLayer();
+	void deleteLayer(int layerNr);
 	vector<CLayer*> getLayers();
-	double calculateOutput(int _nr);
+	double calculateOutput(int _layerNr);
 	void setLayerInputs(CLayer* layer);
 	void setNumberOfInputs(int inputs);
 	void setNumberOfTargets(int targets);
@@ -29,5 +29,9 @@ public:
 	void setNumberOfNeuronsPerLayer(int nrOfNeurons);
 	int getNumberOfLayers();
 	int getNumberOfNeuronsPerLayer();
+	void setNumberOfIterations(int _nr);
+	int getNumberOfIterations();
+	vector <double> calculateOutputOfLayer(int layer);
+	void createWeightMatrix(int layerNr);
 };
 

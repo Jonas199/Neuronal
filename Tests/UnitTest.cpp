@@ -30,6 +30,18 @@ namespace Tests
 			Assert::IsNotNull(matrix);
 		}
 
+		TEST_METHOD(getNrOfRows)
+		{
+			CMatrix *matrix = new CMatrix(2, 4);
+			Assert::AreEqual(2,matrix->getNrOfRows());
+		}
+
+		TEST_METHOD(getNrOfCols)
+		{
+			CMatrix *matrix = new CMatrix(2, 4);
+			Assert::AreEqual(4, matrix->getNrOfCols());
+		}
+
 		TEST_METHOD(SetMatrixToZero)
 		{
 			CMatrix *matrix = new CMatrix(4, 4);
@@ -236,8 +248,8 @@ namespace Tests
 		TEST_METHOD(SetNumberOfIterations)
 		{
 			CNetwork *net = new CNetwork();
-			//TODO: Add Function to set Iterations
-			Assert::IsFalse(true);
+			net->setNumberOfIterations(100);
+			Assert::AreEqual(100,net->getNumberOfIterations());
 		}
 
 		TEST_METHOD(AddLayer)
@@ -246,6 +258,34 @@ namespace Tests
 			CLayer *layer = new CLayer();
 			net->addLayer(layer);
 			Assert::IsFalse(net->getLayers().empty());
+		}
+
+		TEST_METHOD(DeleteLayer)
+		{
+			CNetwork *net = new CNetwork();
+			CLayer *layer = new CLayer();
+			net->addLayer(layer);
+			net->deleteLayer(0);
+			Assert::IsTrue(net->getLayers().empty());
+		}
+
+		TEST_METHOD(CreateWeightMatrixforLayer)
+		{
+			CNetwork *net = new CNetwork();
+			CLayer *l1 = new CLayer();
+			CNeuron *n1 = new CNeuron();
+			CNeuron *n2 = new CNeuron();
+			l1->addNeuron(n1);
+			l1->addNeuron(n2);
+			CLayer *l2 = new CLayer();
+			CNeuron *n3 = new CNeuron();
+			CNeuron *n4 = new CNeuron();
+			l2->addNeuron(n3);
+			l2->addNeuron(n4);
+			net->addLayer(l1);
+			net->addLayer(l2);
+			net->createWeightMatrix(2);
+			Assert::IsFalse(true);
 		}
 
 		TEST_METHOD(UpdateWeights)
@@ -269,6 +309,12 @@ namespace Tests
 			Assert::IsFalse(true);
 		}
 
+		TEST_METHOD(CalculateOutputOfLayer)
+		{
+			CNetwork *net = new CNetwork();
+			//TODO: Add Function to calculate Output of a layer into a vector 
+			Assert::IsFalse(true);
+		}
 
 
 	};
