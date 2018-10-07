@@ -15,5 +15,6 @@ public:
 	void printMatrix();
 	void setMatrixToZero();
 	void multWithFactor(double factor);
+	void addMatr(CMatrix *m);
 };
 

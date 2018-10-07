@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "CMatrix.h"
 #include <iostream>
 #include <Array>
@@ -64,6 +64,15 @@ void CMatrix::multWithFactor(double factor)
 	for (int i = 0; i < rows; i++){
 		for (int j = 0; j < cols; j++){
 			this->setValue(i, j, this->getValue(i,j)*factor);
+		}
+	}
+}
+
+void CMatrix::addMatr(CMatrix * m)
+{
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			this->setValue(i, j, this->getValue(i, j)+m->getValue(i,j));
 		}
 	}
 }

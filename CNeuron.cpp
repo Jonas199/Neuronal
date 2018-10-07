@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "CNeuron.h"
 #include <iostream>
 #include <Array>
@@ -7,10 +7,11 @@ using namespace std;
 
 CNeuron::CNeuron()
 {
+	static int anzahl = 0;
 	output = 0.0;
 	state = 1;
-	this->thisId = id;
-	id++;
+	this->id = anzahl;
+	anzahl++;
 }
 
 
@@ -52,10 +53,13 @@ int CNeuron::getNrOfInputs(){
 	return this->inputList.size();
 }
 
-void CNeuron::setNrOfInputs(){
+void CNeuron::setNrOfInputs(int n){
+	this->nrOfInputs = n;
+	this->inputList.resize(n);
 }
 
 void CNeuron::setInputs(vector <CInput*> inputs){
+	this->inputList = inputs;
 }
 
 void CNeuron::UpdateWeights(){
@@ -71,6 +75,11 @@ void CNeuron::setRelError(double err){
 
 void CNeuron::setFactor(double f){
 	this->factor = f;
+}
+
+vector<CInput*> CNeuron::getInput()
+{
+	return this->inputList;
 }
 
 double CNeuron::getRelError(){
@@ -96,9 +105,22 @@ int CNeuron::getLayer()
 	return this->layer;
 }
 
+double CNeuron::getValue(int inputNr)
+{
+	return this->inputList.at(inputNr)->getValue();
+}
+
+double CNeuron::getDelta()
+{
+	return this->delta;
+}
+void CNeuron::setDelta(double delta)
+{
+	this->delta = delta;
+}
 int CNeuron::getId()
 {
-	return this->thisId;
+	return this->id;
 }
 
 void CNeuron::printAll(){
@@ -117,4 +139,3 @@ void CNeuron::printAll(){
 		cout << endl;
 	}
 }
-int CNeuron::id = 0;

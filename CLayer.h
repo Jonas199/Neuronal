@@ -13,7 +13,7 @@ public:
 	CLayer();
 	~CLayer();
 private:
-	int layerId;
+	int id;
 	int nrOfNeurons;
 	int nrOfInputsPerNeuron; // = Number of Neurons in last Layer
 	int layerNr;
@@ -33,6 +33,6 @@ public:
 	vector <CNeuron*> getNeurons();
 	vector <double> getOutputs();
 	void printOutputs();
-
+	int getId();
 };
 

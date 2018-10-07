@@ -1,11 +1,14 @@
-#include "stdafx.h"
+#include "pch.h"
 #include "CLayer.h"
 
 
 CLayer::CLayer()
 {
+	static int anzahl = 0;
 	nrOfNeurons = 0;
 	nrOfInputsPerNeuron = 0;
+	this->id = anzahl;
+	anzahl++;
 }
 
 
@@ -84,4 +87,9 @@ void CLayer::printOutputs() {
 		i++;
 	}
 	
+}
+
+int CLayer::getId()
+{
+	return  this->id;
 }
