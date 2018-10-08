@@ -205,6 +205,49 @@ namespace Tests
 			Assert::AreEqual(-1,l1->getNrOfInputsPerNeuron());
 		}
 
+		TEST_METHOD(SetInputs)
+		{
+			vector <double> output = {0.2,0.5,-0.9,7.7};
+			CLayer *l1 = new CLayer();
+			auto *n1 = new CNeuron();
+			auto *n2 = new CNeuron();
+			l1->addNeuron(n1);
+			l1->addNeuron(n2);
+			l1->setInputs(output);
+			for (int i = 0; i < 4;i++) {
+				Assert::AreEqual(output.at(i),l1->getNeurons().at(0)->getValue(i));
+			}
+		}
+
+		TEST_METHOD(GetOutputs)
+		{
+			CLayer *l1 = new CLayer();
+			auto *n1 = new CNeuron();
+			auto *n2 = new CNeuron();
+			n1->setInputValue(0, 1.0, -1.0);
+			n1->setInputValue(1, -1.0, 1);
+			n2->setInputValue(0, 1.0, 1.0);
+			n2->setInputValue(1, -1.0, 1);
+			l1->addNeuron(n1);
+			l1->addNeuron(n2);
+			vector <double> outputs1 = l1->getOutputs();
+			Assert::AreEqual(0.12, (round(outputs1.at(0) * 100) / 100));
+			Assert::AreEqual(0.5, (round(outputs1.at(1) * 100) / 100));
+			CLayer *l2 = new CLayer();
+			auto *n3 = new CNeuron();
+			auto *n4 = new CNeuron();
+			n3->setInputValue(0, outputs1.at(0), 1.0);
+			n3->setInputValue(1, outputs1.at(1), 1);
+			n4->setInputValue(0, outputs1.at(0), -1.0);
+			n4->setInputValue(1, outputs1.at(1), 1);
+			l2->addNeuron(n3);
+			l2->addNeuron(n4);
+			vector <double> outputs2 = l2->getOutputs();
+			Assert::AreEqual(size_t(2),outputs2.size());
+			Assert::AreEqual(0.65, (round(outputs2.at(0) * 100) / 100));
+			Assert::AreEqual(0.59, (round(outputs2.at(1) * 100) / 100));
+		}
+
 	};
 
 	TEST_CLASS(NetworkTests)
@@ -215,6 +258,28 @@ namespace Tests
 		{
 			CNetwork *net = new CNetwork();
 			Assert::IsNotNull(net);
+		}
+
+		TEST_METHOD(CreateTestNetwork)
+		{
+			CNetwork *net = new CNetwork();
+			net->setNumberOfLayers(4);
+			net->setNumberOfNeuronsPerLayer(4);
+			vector <double> inputs = {0.9,3.2,-3.3,8.7};
+			for (int i = 0; i < net->getNumberOfLayers(); i++) {
+				net->addLayer(new CLayer());
+			}
+			for (int i = 0; i < net->getNumberOfLayers(); i++) {
+				for (int j = 0; j < net->getNumberOfNeuronsPerLayer(); j++) {
+					net->getLayers().at(i)->addNeuron(new CNeuron());
+				}
+			}
+			net->getLayers().at(0)->setInputs(inputs);
+			for (int i = 1; i < net->getNumberOfLayers(); i++) {
+				vector <double> out = net->getLayers().at(i-1)->getOutputs();
+				net->getLayers().at(i)->setInputs(out);
+			}
+
 		}
 
 		TEST_METHOD(SetNumberOfInputs)

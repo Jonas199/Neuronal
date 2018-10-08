@@ -32,6 +32,7 @@ public:
 	void setNrOfNeurons(int _nrOfNeurons);
 	vector <CNeuron*> getNeurons();
 	vector <double> getOutputs();
+	void setInputs(vector <double> inputs);
 	void printOutputs();
 	int getId();
 };
