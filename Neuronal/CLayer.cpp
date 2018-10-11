@@ -65,23 +65,19 @@ vector<CNeuron*> CLayer::getNeurons()
 
 vector<double> CLayer::getOutputs()
 {
-	vector<CNeuron*>::iterator pos;
-	pos = this->getNeurons().begin();
-	//Loop for each Neuron
-	//for (pos; pos != this->getNeurons().end(); pos++) {
-	//	this->outputs.push_back((*pos)->calculateOutput());
-	//}
+	vector<double> out;
 	for (int i = 0; i < this->getNeurons().size(); i++) {
-		this->outputs.push_back(this->getNeurons().at(i)->calculateOutput());
+		out.push_back(this->getNeurons().at(i)->calculateOutput());
 	}
-	return this->outputs;
+	this->outputs = out;
+	return out;
 }
 
 void CLayer::setInputs(vector<double> inputs)
 {
 	for (int i = 0; i < this->getNeurons().size();i++) {
 		for (int j = 0; j < inputs.size(); j++) {
-			this->getNeurons().at(i)->setInputValue(j, inputs.at(j), 1);
+			this->getNeurons().at(i)->setInput(j,inputs.at(j));
 		}
 	}
 }

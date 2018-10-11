@@ -9,6 +9,7 @@ CNeuron::CNeuron()
 {
 	static int anzahl = 0;
 	output = 0.0;
+	factor = 0.1;
 	state = 1;
 	this->id = anzahl;
 	anzahl++;
@@ -140,4 +141,9 @@ void CNeuron::printAll(){
 		cout << "weight: " << this->inputList.at(i)->getWeight() << endl;
 		cout << endl;
 	}
+}
+
+void CNeuron::setInput(int inputNr, double in)
+{
+	this->inputList.at(inputNr)->setValue(in);
 }

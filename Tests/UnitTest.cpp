@@ -207,15 +207,18 @@ namespace Tests
 
 		TEST_METHOD(SetInputs)
 		{
-			vector <double> output = {0.2,0.5,-0.9,7.7};
+			vector <double> output = {0.2,0.5};
 			CLayer *l1 = new CLayer();
 			auto *n1 = new CNeuron();
 			auto *n2 = new CNeuron();
 			l1->addNeuron(n1);
 			l1->addNeuron(n2);
 			l1->setInputs(output);
-			for (int i = 0; i < 4;i++) {
+			for (int i = 0; i < output.size();i++) {
 				Assert::AreEqual(output.at(i),l1->getNeurons().at(0)->getValue(i));
+			}
+			for (int i = 0; i < output.size(); i++) {
+				Assert::AreEqual(output.at(i), l1->getNeurons().at(1)->getValue(i));
 			}
 		}
 
@@ -242,10 +245,47 @@ namespace Tests
 			n4->setInputValue(1, outputs1.at(1), 1);
 			l2->addNeuron(n3);
 			l2->addNeuron(n4);
+//			vector <double> outputs2 = l2->getOutputs();
+//			Assert::AreEqual(size_t(2),outputs2.size());
+			/*Assert::AreEqual(0.65, (round(outputs2.at(0) * 100) / 100));
+			Assert::AreEqual(0.59, (round(outputs2.at(1) * 100) / 100));*/
+			Assert::AreEqual(0.65, (round(l2->getOutputs().at(0) * 100) / 100));
+			Assert::AreEqual(0.59, (round(l2->getOutputs().at(1) * 100) / 100));
+		}
+
+		TEST_METHOD(CalculateRelErrOfLayer)
+		{
+			auto *net = new CNetwork();
+			vector <double> target = { 1,0 };
+			net->setTarget(&target);
+			CLayer *l1 = new CLayer();
+			auto *n1 = new CNeuron();
+			auto *n2 = new CNeuron();
+			n1->setInputValue(0, 1.0, -1.0);
+			n1->setInputValue(1, -1.0, 1);
+			n2->setInputValue(0, 1.0, 1.0);
+			n2->setInputValue(1, -1.0, 1);
+			l1->addNeuron(n1);
+			l1->addNeuron(n2);
+			vector <double> outputs1 = l1->getOutputs();
+			CLayer *l2 = new CLayer();
+			auto *n3 = new CNeuron();
+			auto *n4 = new CNeuron();
+			n3->setInputValue(0, outputs1.at(0), 1.0);
+			n3->setInputValue(1, outputs1.at(1), 1);
+			n4->setInputValue(0, outputs1.at(0), -1.0);
+			n4->setInputValue(1, outputs1.at(1), 1);
+			//n3->setRelError(0.0796);
+			//n4->setRelError(-0.1427);
+			l2->addNeuron(n3);
+			l2->addNeuron(n4);
 			vector <double> outputs2 = l2->getOutputs();
-			Assert::AreEqual(size_t(2),outputs2.size());
-			Assert::AreEqual(0.65, (round(outputs2.at(0) * 100) / 100));
-			Assert::AreEqual(0.59, (round(outputs2.at(1) * 100) / 100));
+			net->addLayer(l1);
+			net->addLayer(l2);
+			net->calculateRelError(1);
+			net->calculateRelError(0);
+			Assert::AreEqual(-0.02, (round(net->getLayers().at(0)->getNeurons().at(0)->getRelError() * 100) / 100));
+			Assert::AreEqual(0.02, (round(net->getLayers().at(0)->getNeurons().at(1)->getRelError() * 100) / 100));
 		}
 
 	};
@@ -378,6 +418,13 @@ namespace Tests
 		{
 			CNetwork *net = new CNetwork();
 			//TODO: Add Function to calculate Output of a layer into a vector 
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(CalculateAccuracy)
+		{
+			CNetwork *net = new CNetwork();
+			//TODO: Add Function to calculate Accuracy of the network by comparing prediction and target 
 			Assert::IsFalse(true);
 		}
 

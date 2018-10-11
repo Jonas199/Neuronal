@@ -42,9 +42,7 @@ public:
 	double getDelta();
 	void setDelta(double delta);
 	int getId();
-	
-
 	void printAll();
-
+	void setInput(int inputNr, double in);
 };
 

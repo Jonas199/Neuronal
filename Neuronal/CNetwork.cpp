@@ -97,6 +97,44 @@ vector<double> CNetwork::calculateOutputOfLayer(int layer)
 	return result;
 }
 
+void CNetwork::setTarget(vector<double> *t)
+{
+	this->target = t;
+}
+
+void CNetwork::calculateDeltas(int layer)
+{
+
+}
+
+void CNetwork::calculateRelError(int layer)
+{
+	if (layer < this->getLayers().size()-1) {
+		double h_n = 0;
+		double relErrNext = 0;
+		double relErr = 0;
+		double w_rel_sum = 0;
+		for (int n = 0; n < this->getLayers().at(layer)->getNeurons().size(); n++) {
+		w_rel_sum = 0;
+			for (int i = 0; i < this->getLayers().at(layer+1)->getNeurons().size(); i++) {
+				relErrNext = this->getLayers().at(layer + 1)->getNeurons().at(i)->getRelError();
+				w_rel_sum = w_rel_sum + (this->getLayers().at(layer+1)->getNeurons().at(i)->getWeight(n)*relErrNext);
+			}
+			h_n = this->getLayers().at(layer )->getNeurons().at(n)->calculateOutput();
+			relErr = h_n * (h_n - 1)*w_rel_sum;
+			this->getLayers().at(layer)->getNeurons().at(n)->setRelError(relErr);
+		}
+	}
+	else {
+		for (int i = 0; i < this->target->size(); i++) {
+			double y = this->getLayers().at(layer)->getNeurons().at(i)->calculateOutput();
+			double relErr = y * (1 - y)*(this->target->at(i)-y);
+			this->getLayers().at(layer)->getNeurons().at(i)->setRelError(relErr);
+		}
+	}
+
+}
+
 void CNetwork::createWeightMatrix(int layerNr)
 {
 

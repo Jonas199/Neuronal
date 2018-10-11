@@ -13,6 +13,9 @@ private:
 	int inputs;
 	int targets;
 	int nrOfIterations;
+	double accuracy;
+	int test_targets;
+	vector <double> *target;
 public:
 	CNetwork();
 	~CNetwork();
@@ -32,6 +35,9 @@ public:
 	void setNumberOfIterations(int _nr);
 	int getNumberOfIterations();
 	vector <double> calculateOutputOfLayer(int layer);
+	void setTarget(vector <double> *t);
+	void calculateDeltas(int layer);
+	void calculateRelError(int layer);
 	void createWeightMatrix(int layerNr);
 };
 
