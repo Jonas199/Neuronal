@@ -139,3 +139,49 @@ void CNetwork::createWeightMatrix(int layerNr)
 {
 
 }
+
+CSample* CNetwork::generateTestSample()
+{
+	auto sample = new CSample();
+	auto input = new CTable();
+	auto target = new CTable();
+	for (double i = 0; i < 100; i++) {
+		auto inputValues = new CRow({i,i+1,i+2});
+		auto targetValues = new CRow({(i*4),(i*(i + 1)*(i + 2))});
+		input->addRow(inputValues);
+		target->addRow(targetValues);
+	}
+	sample->setInput(input);
+	sample->setTarget(target);
+	return sample;
+}
+
+CNetwork * CNetwork::generateTestNetwork()
+{
+	auto *net = new CNetwork();
+	vector <double> target = { 0,1 };
+	net->setTarget(&target);
+	CLayer *l1 = new CLayer();
+	auto *n1 = new CNeuron();
+	auto *n2 = new CNeuron();
+	n1->setInputValue(0, 1.0, -1.0);
+	n1->setInputValue(1, -1.0, 1);
+	n2->setInputValue(0, 1.0, 1.0);
+	n2->setInputValue(1, -1.0, 1);
+	l1->addNeuron(n1);
+	l1->addNeuron(n2);
+	vector <double> outputs1 = l1->getOutputs();
+	CLayer *l2 = new CLayer();
+	auto *n3 = new CNeuron();
+	auto *n4 = new CNeuron();
+	n3->setInputValue(0, outputs1.at(0), 1.0);
+	n3->setInputValue(1, outputs1.at(1), 1);
+	n4->setInputValue(0, outputs1.at(0), -1.0);
+	n4->setInputValue(1, outputs1.at(1), 1);
+	l2->addNeuron(n3);
+	l2->addNeuron(n4);
+	vector <double> outputs2 = l2->getOutputs();
+	net->addLayer(l1);
+	net->addLayer(l2);
+	return net;
+}

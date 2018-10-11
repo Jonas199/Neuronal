@@ -1,5 +1,6 @@
 #include "CLayer.h"
 #include "vector"
+#include "CSample.h"
 #pragma once
 
 using namespace std;
@@ -39,5 +40,7 @@ public:
 	void calculateDeltas(int layer);
 	void calculateRelError(int layer);
 	void createWeightMatrix(int layerNr);
+	CSample* generateTestSample();
+	CNetwork* generateTestNetwork();
 };
 

@@ -10,6 +10,12 @@
 #include "..\Neuronal\CLayer.cpp"
 #include "..\Neuronal\CNetwork.h"
 #include "..\Neuronal\CNetwork.cpp"
+#include "..\Neuronal\CRow.h"
+#include "..\Neuronal\CRow.cpp"
+#include "..\Neuronal\CTable.h"
+#include "..\Neuronal\CTable.cpp"
+#include "..\Neuronal\CSample.h"
+#include "..\Neuronal\CSample.cpp"
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace Tests
@@ -428,7 +434,34 @@ namespace Tests
 			Assert::IsFalse(true);
 		}
 
+		TEST_METHOD(GenerateTestNetwork)
+		{
+			auto net = new CNetwork();
+			auto testNet = net->generateTestNetwork();
+			Assert::AreEqual(size_t(2), testNet->getLayers().size());
+		}
 
+
+	};
+	TEST_CLASS(SampleTests)
+	{
+	public:
+		TEST_METHOD(CreateSample)
+		{
+			auto sampl = new CSample();
+			Assert::IsNotNull(sampl);
+		}
+
+		TEST_METHOD(CreateTestSample)
+		{
+			auto net = new CNetwork();
+			CSample *sample = net->generateTestSample();
+			auto row = sample->getInput()->getRow(10);
+			Assert::IsNotNull(row);
+			Assert::AreEqual(10.0,row->getValues().at(0));
+			row = sample->getTarget()->getRow(10);
+			Assert::AreEqual(40.0, row->getValues().at(0));
+		}
 	};
 
 }
