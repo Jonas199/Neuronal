@@ -9,6 +9,11 @@ vector<double> CRow::getValues()
 	return this->values;
 }
 
+int CRow::getNrOfCols()
+{
+	return this->values.size();
+}
+
 CRow::CRow()
 {
 }

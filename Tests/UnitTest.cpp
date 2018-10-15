@@ -137,13 +137,27 @@ namespace Tests
 			Assert::AreEqual(2,n->getNrOfInputs());
 		}
 
-		TEST_METHOD(SetInputValue)
+		TEST_METHOD(addInputValue)
 		{
 			CNeuron *n = new CNeuron();
-			n->setInputValue(0, 0.1, -1.1);
+			n->addInputValue(0, 0.1, -1.1);
 			Assert::AreEqual(-1.1,n->getWeight(0));
 			Assert::AreEqual(0.1,n->getValue(0));
 		}
+
+		TEST_METHOD(SetInput)
+		{
+			CNeuron *n = new CNeuron();
+			n->setInput(0,20.5);
+			Assert::AreEqual(20.5, n->getInput().at(0)->getValue());
+			n->setInput(0, 20.4);
+			Assert::AreEqual(20.4, n->getInput().at(0)->getValue());
+			n->setInput(1, 2.4);
+			Assert::AreEqual(2.4, n->getInput().at(1)->getValue());
+			n->setInput(7, 2.6);
+			Assert::AreEqual(2.6, n->getInput().at(2)->getValue());
+		}
+
 
 		TEST_METHOD(SetRelError)
 		{
@@ -163,10 +177,10 @@ namespace Tests
 		{
 			CNeuron *n1 = new CNeuron();
 			CNeuron *n2 = new CNeuron();
-			n1->setInputValue(0,1.0,-1.0);
-			n1->setInputValue(1,-1.0,1);
-			n2->setInputValue(0,1.0,1.0);
-			n2->setInputValue(1,-1.0,1);
+			n1->addInputValue(0,1.0,-1.0);
+			n1->addInputValue(1,-1.0,1);
+			n2->addInputValue(0,1.0,1.0);
+			n2->addInputValue(1,-1.0,1);
 			Assert::AreEqual(0.12, (round(n1->calculateOutput() * 100) / 100) );
 			Assert::AreEqual(0.5, (round(n2->calculateOutput() * 100) / 100));
 		}
@@ -233,10 +247,10 @@ namespace Tests
 			CLayer *l1 = new CLayer();
 			auto *n1 = new CNeuron();
 			auto *n2 = new CNeuron();
-			n1->setInputValue(0, 1.0, -1.0);
-			n1->setInputValue(1, -1.0, 1);
-			n2->setInputValue(0, 1.0, 1.0);
-			n2->setInputValue(1, -1.0, 1);
+			n1->addInputValue(0, 1.0, -1.0);
+			n1->addInputValue(1, -1.0, 1);
+			n2->addInputValue(0, 1.0, 1.0);
+			n2->addInputValue(1, -1.0, 1);
 			l1->addNeuron(n1);
 			l1->addNeuron(n2);
 			vector <double> outputs1 = l1->getOutputs();
@@ -245,10 +259,10 @@ namespace Tests
 			CLayer *l2 = new CLayer();
 			auto *n3 = new CNeuron();
 			auto *n4 = new CNeuron();
-			n3->setInputValue(0, outputs1.at(0), 1.0);
-			n3->setInputValue(1, outputs1.at(1), 1);
-			n4->setInputValue(0, outputs1.at(0), -1.0);
-			n4->setInputValue(1, outputs1.at(1), 1);
+			n3->addInputValue(0, outputs1.at(0), 1.0);
+			n3->addInputValue(1, outputs1.at(1), 1);
+			n4->addInputValue(0, outputs1.at(0), -1.0);
+			n4->addInputValue(1, outputs1.at(1), 1);
 			l2->addNeuron(n3);
 			l2->addNeuron(n4);
 //			vector <double> outputs2 = l2->getOutputs();
@@ -267,20 +281,20 @@ namespace Tests
 			CLayer *l1 = new CLayer();
 			auto *n1 = new CNeuron();
 			auto *n2 = new CNeuron();
-			n1->setInputValue(0, 1.0, -1.0);
-			n1->setInputValue(1, -1.0, 1);
-			n2->setInputValue(0, 1.0, 1.0);
-			n2->setInputValue(1, -1.0, 1);
+			n1->addInputValue(0, 1.0, -1.0);
+			n1->addInputValue(1, -1.0, 1);
+			n2->addInputValue(0, 1.0, 1.0);
+			n2->addInputValue(1, -1.0, 1);
 			l1->addNeuron(n1);
 			l1->addNeuron(n2);
 			vector <double> outputs1 = l1->getOutputs();
 			CLayer *l2 = new CLayer();
 			auto *n3 = new CNeuron();
 			auto *n4 = new CNeuron();
-			n3->setInputValue(0, outputs1.at(0), 1.0);
-			n3->setInputValue(1, outputs1.at(1), 1);
-			n4->setInputValue(0, outputs1.at(0), -1.0);
-			n4->setInputValue(1, outputs1.at(1), 1);
+			n3->addInputValue(0, outputs1.at(0), 1.0);
+			n3->addInputValue(1, outputs1.at(1), 1);
+			n4->addInputValue(0, outputs1.at(0), -1.0);
+			n4->addInputValue(1, outputs1.at(1), 1);
 			//n3->setRelError(0.0796);
 			//n4->setRelError(-0.1427);
 			l2->addNeuron(n3);
@@ -293,6 +307,8 @@ namespace Tests
 			Assert::AreEqual(-0.02, (round(net->getLayers().at(0)->getNeurons().at(0)->getRelError() * 100) / 100));
 			Assert::AreEqual(0.02, (round(net->getLayers().at(0)->getNeurons().at(1)->getRelError() * 100) / 100));
 		}
+
+
 
 	};
 
@@ -441,6 +457,29 @@ namespace Tests
 			Assert::AreEqual(size_t(2), testNet->getLayers().size());
 		}
 
+		TEST_METHOD(StartTrainingTest)
+		{
+			auto net = new CNetwork();
+			for (int l = 0; l < 2; l++) {
+				auto layer = new CLayer();
+				for (int i = 0; i < 2; i++) {
+					auto neuron = new CNeuron();
+					layer->addNeuron(neuron);
+				}
+				net->addLayer(layer);
+			}
+			CSample *sample = net->generateTestSample();
+			net->setTrainingSamples(sample);
+			net->startTraining();
+			Assert::IsFalse(true);
+		}
+
+		TEST_METHOD(ImportFromCSV)
+		{
+			auto net = new CNetwork();
+			net->getSampleFromCSV();
+			Assert::IsFalse(true);
+		}
 
 	};
 	TEST_CLASS(SampleTests)

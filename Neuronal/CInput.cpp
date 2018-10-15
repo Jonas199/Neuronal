@@ -6,7 +6,7 @@ CInput::CInput()
 {
 	value = 0.0;
 	number = 0;
-	weight = 0.0;
+	weight = 1;
 }
 
 CInput::CInput(double _val, int _num, double _weight)

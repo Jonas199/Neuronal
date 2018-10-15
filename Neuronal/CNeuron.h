@@ -9,6 +9,7 @@ class CNeuron
 {
 public:
 	CNeuron();
+	CNeuron(int inputs);
 	~CNeuron();
 
 private:
@@ -24,7 +25,7 @@ private:
 public:
 	void activate();
 	void deactivate();
-	void setInputValue(int _inputNr, double _value, double _weight);
+	void addInputValue(int _inputNr, double _value, double _weight);
 	double calculateOutput();
 	int getNrOfInputs();
 	void setNrOfInputs(int n);
@@ -44,5 +45,6 @@ public:
 	int getId();
 	void printAll();
 	void setInput(int inputNr, double in);
+	
 };
 

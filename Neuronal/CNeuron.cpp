@@ -15,6 +15,19 @@ CNeuron::CNeuron()
 	anzahl++;
 }
 
+CNeuron::CNeuron(int inputs)
+{
+	static int anzahl = 0;
+	output = 0.0;
+	factor = 0.1;
+	state = 1;
+	this->id = anzahl;
+	anzahl++;
+	for (int i= 0; i < inputs; i++) {
+		auto input = new CInput();
+		this->inputList.push_back(input);
+	}
+}
 
 CNeuron::~CNeuron()
 {
@@ -36,7 +49,7 @@ void CNeuron::deactivate()
 
 }
 
-void CNeuron::setInputValue(int _inputNr, double _value, double _weight){
+void CNeuron::addInputValue(int _inputNr, double _value, double _weight){
 	this->inputList.push_back(new CInput(_value, _inputNr,_weight));
 }
 
@@ -145,5 +158,12 @@ void CNeuron::printAll(){
 
 void CNeuron::setInput(int inputNr, double in)
 {
-	this->inputList.at(inputNr)->setValue(in);
+	if ((this->inputList.size() == 0) || (this->inputList.size() <= inputNr)){
+	//if ((this->inputList.size()==0)||(this->inputList.at(inputNr) == nullptr)) {
+		auto input = new CInput(in,inputNr, 1);
+		this->inputList.push_back(input);
+	}
+	else {
+		this->inputList.at(inputNr)->setValue(in);
+	}
 }

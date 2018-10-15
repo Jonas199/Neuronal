@@ -11,8 +11,10 @@ public:
 	CTable();
 	void addRow(CRow *_row);
 	CRow *getRow(int i);
+	int getNrOfRows();
 	~CTable();
 private:
 	vector <CRow*> rows;
+	int nrOfRows;
 };
 

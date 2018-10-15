@@ -15,5 +15,6 @@ public:
 	CRow(vector <double>_values);
 	~CRow();
 	vector <double> getValues();
+	int getNrOfCols();
 };
 

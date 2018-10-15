@@ -31,6 +31,11 @@ void CSample::setTarget(CTable * _target)
 	this->target = _target;
 }
 
+int CSample::getValues()
+{
+	return this->input->getNrOfRows();
+}
+
 CTable *CSample::getInput()
 {
 	return this->input;

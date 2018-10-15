@@ -76,6 +76,7 @@ vector<double> CLayer::getOutputs()
 void CLayer::setInputs(vector<double> inputs)
 {
 	for (int i = 0; i < this->getNeurons().size();i++) {
+		//this->getNeurons().at(i)->setNrOfInputs(inputs.size());
 		for (int j = 0; j < inputs.size(); j++) {
 			this->getNeurons().at(i)->setInput(j,inputs.at(j));
 		}

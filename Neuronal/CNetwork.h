@@ -17,6 +17,8 @@ private:
 	double accuracy;
 	int test_targets;
 	vector <double> *target;
+	CSample* training_samples;
+	CSample* test_samples;
 public:
 	CNetwork();
 	~CNetwork();
@@ -42,5 +44,13 @@ public:
 	void createWeightMatrix(int layerNr);
 	CSample* generateTestSample();
 	CNetwork* generateTestNetwork();
+	void setTestSamples(CSample *sampl);
+	void setTrainingSamples(CSample *sampl);
+	CSample *getTestSamples();
+	CSample *getTrainingSamples();
+	void startTraining(int cycles);
+	void startTesting();
+	double getAccuracy();
+	CSample* getSampleFromCSV( const char *filename);
 };
 

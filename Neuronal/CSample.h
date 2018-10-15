@@ -9,6 +9,7 @@ public:
 	~CSample();
 	void setInput(CTable * _input);
 	void setTarget(CTable *_target);
+	int getValues();
 	CTable *getInput();
 	CTable *getTarget();
 private:
