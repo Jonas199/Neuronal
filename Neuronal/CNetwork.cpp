@@ -227,6 +227,7 @@ void CNetwork::startTraining(int cycles)
 			tar = this->training_samples->getTarget()->getRow(i)->getValues();
 			this->setTarget(&tar);
 			for (int i = 0; i < this->getLayers().size(); i++) {
+				//cout << "outputs of layer(" << i << "): ";
 				vector <double> out = this->getLayers().at(i)->getOutputs();
 				//for (int n = 0; n < out.size(); n++) {
 				//	cout << out.at(n) << " , ";
@@ -236,10 +237,12 @@ void CNetwork::startTraining(int cycles)
 					this->getLayers().at(i + 1)->setInputs(out);
 				}
 			}
-			for (int j = this->getLayers().size(); j > 0; j--) {
-				this->calculateRelError(j - 1);
-				for (int n = 0; n < this->getLayers().at(j - 1)->getNeurons().size(); n++) {
-					this->getLayers().at(j - 1)->getNeurons().at(n)->UpdateWeights();
+			for (int j = this->getLayers().size()-1; j >= 0; j--) {
+				this->calculateRelError(j);
+			}
+			for (int i = 0; i < this->getLayers().size(); i++) {
+				for (int n = 0; n < this->getLayers().at(i)->getNeurons().size(); n++) {
+					this->getLayers().at(i)->getNeurons().at(n)->UpdateWeights();
 				}
 			}
 		}

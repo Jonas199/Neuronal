@@ -191,6 +191,17 @@ namespace Tests
 			n->setDelta(0.2);
 			Assert::AreEqual(0.2, n->getDelta());
 		}
+
+		TEST_METHOD(UpdateWeights)
+		{
+			CNeuron *n = new CNeuron();
+			n->addInputValue(0,1,-1);
+			n->addInputValue(1,-1,1);
+			n->setRelError(-0.0235);
+			n->UpdateWeights();
+			Assert::AreEqual(-1.0024, round(n->getInput().at(0)->getWeight()*10000)/ 10000);
+			Assert::AreEqual(1.0024, round(n->getInput().at(1)->getWeight() * 10000) / 10000);
+		}
 	};
 
 	TEST_CLASS(LayerTests)
@@ -304,6 +315,8 @@ namespace Tests
 			net->addLayer(l2);
 			net->calculateRelError(1);
 			net->calculateRelError(0);
+			Assert::AreEqual(0.08, (round(net->getLayers().at(1)->getNeurons().at(0)->getRelError() * 100) / 100));
+			Assert::AreEqual(-0.14, (round(net->getLayers().at(1)->getNeurons().at(1)->getRelError() * 100) / 100));
 			Assert::AreEqual(-0.02, (round(net->getLayers().at(0)->getNeurons().at(0)->getRelError() * 100) / 100));
 			Assert::AreEqual(0.02, (round(net->getLayers().at(0)->getNeurons().at(1)->getRelError() * 100) / 100));
 		}
@@ -470,14 +483,14 @@ namespace Tests
 			}
 			CSample *sample = net->generateTestSample();
 			net->setTrainingSamples(sample);
-			net->startTraining();
+			net->startTraining(20);
 			Assert::IsFalse(true);
 		}
 
 		TEST_METHOD(ImportFromCSV)
 		{
 			auto net = new CNetwork();
-			net->getSampleFromCSV();
+//			net->getSampleFromCSV();
 			Assert::IsFalse(true);
 		}
 
